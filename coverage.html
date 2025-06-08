@@ -1,0 +1,1508 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>azure-notificationhubs-go: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">github.com/koreset/azure-notificationhubs-go/errors.go (0.0%)</option>
+				
+				<option value="file1">github.com/koreset/azure-notificationhubs-go/installation.go (82.8%)</option>
+				
+				<option value="file2">github.com/koreset/azure-notificationhubs-go/internal.go (100.0%)</option>
+				
+				<option value="file3">github.com/koreset/azure-notificationhubs-go/main.go (50.0%)</option>
+				
+				<option value="file4">github.com/koreset/azure-notificationhubs-go/notification.go (77.8%)</option>
+				
+				<option value="file5">github.com/koreset/azure-notificationhubs-go/notificationhub.go (97.4%)</option>
+				
+				<option value="file6">github.com/koreset/azure-notificationhubs-go/platform.go (100.0%)</option>
+				
+				<option value="file7">github.com/koreset/azure-notificationhubs-go/registration.go (74.7%)</option>
+				
+				<option value="file8">github.com/koreset/azure-notificationhubs-go/send.go (69.4%)</option>
+				
+				<option value="file9">github.com/koreset/azure-notificationhubs-go/telemetry.go (50.0%)</option>
+				
+				<option value="file10">github.com/koreset/azure-notificationhubs-go/utils/expiration_time_generator.go (66.7%)</option>
+				
+				<option value="file11">github.com/koreset/azure-notificationhubs-go/utils/http_client.go (5.9%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">no coverage</span>
+				<span class="cov1">low coverage</span>
+				<span class="cov2">*</span>
+				<span class="cov3">*</span>
+				<span class="cov4">*</span>
+				<span class="cov5">*</span>
+				<span class="cov6">*</span>
+				<span class="cov7">*</span>
+				<span class="cov8">*</span>
+				<span class="cov9">*</span>
+				<span class="cov10">high coverage</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package notificationhubs
+
+import (
+        "fmt"
+        "net/http"
+)
+
+// ErrorCode represents specific error types that can occur
+type ErrorCode string
+
+const (
+        // ErrorCodeInvalidConnectionString indicates an invalid connection string
+        ErrorCodeInvalidConnectionString ErrorCode = "INVALID_CONNECTION_STRING"
+        // ErrorCodeAuthenticationFailed indicates authentication failure
+        ErrorCodeAuthenticationFailed ErrorCode = "AUTHENTICATION_FAILED"
+        // ErrorCodeUnauthorized indicates unauthorized access
+        ErrorCodeUnauthorized ErrorCode = "UNAUTHORIZED"
+
+        // ErrorCodeInvalidRequest indicates an invalid request
+        ErrorCodeInvalidRequest ErrorCode = "INVALID_REQUEST"
+        // ErrorCodeInvalidPayload indicates an invalid payload
+        ErrorCodeInvalidPayload ErrorCode = "INVALID_PAYLOAD"
+        // ErrorCodePayloadTooLarge indicates the payload is too large
+        ErrorCodePayloadTooLarge ErrorCode = "PAYLOAD_TOO_LARGE"
+        // ErrorCodeInvalidTags indicates invalid tags
+        ErrorCodeInvalidTags ErrorCode = "INVALID_TAGS"
+
+        // ErrorCodeServerError indicates a server error
+        ErrorCodeServerError ErrorCode = "SERVER_ERROR"
+        // ErrorCodeServiceUnavailable indicates the service is unavailable
+        ErrorCodeServiceUnavailable ErrorCode = "SERVICE_UNAVAILABLE"
+        // ErrorCodeTimeout indicates a timeout occurred
+        ErrorCodeTimeout ErrorCode = "TIMEOUT"
+
+        // ErrorCodeRateLimited indicates rate limiting is active
+        ErrorCodeRateLimited ErrorCode = "RATE_LIMITED"
+        // ErrorCodeQuotaExceeded indicates quota has been exceeded
+        ErrorCodeQuotaExceeded ErrorCode = "QUOTA_EXCEEDED"
+
+        // ErrorCodeRegistrationNotFound indicates registration was not found
+        ErrorCodeRegistrationNotFound ErrorCode = "REGISTRATION_NOT_FOUND"
+        // ErrorCodeInvalidRegistration indicates invalid registration
+        ErrorCodeInvalidRegistration ErrorCode = "INVALID_REGISTRATION"
+
+        // ErrorCodeInstallationNotFound indicates installation was not found
+        ErrorCodeInstallationNotFound ErrorCode = "INSTALLATION_NOT_FOUND"
+        // ErrorCodeInvalidInstallation indicates invalid installation
+        ErrorCodeInvalidInstallation ErrorCode = "INVALID_INSTALLATION"
+)
+
+// NotificationHubError represents an error from the notification hub service
+type NotificationHubError struct {
+        Code       ErrorCode
+        Message    string
+        Details    string
+        StatusCode int
+        RequestID  string
+        Cause      error
+}
+
+// Error implements the error interface
+func (e *NotificationHubError) Error() string <span class="cov0" title="0">{
+        if e.Details != "" </span><span class="cov0" title="0">{
+                return fmt.Sprintf("notification hub error [%s]: %s - %s", e.Code, e.Message, e.Details)
+        }</span>
+        <span class="cov0" title="0">return fmt.Sprintf("notification hub error [%s]: %s", e.Code, e.Message)</span>
+}
+
+// Unwrap implements the error unwrapping interface for Go 1.13+
+func (e *NotificationHubError) Unwrap() error <span class="cov0" title="0">{
+        return e.Cause
+}</span>
+
+// Is implements error comparison for Go 1.13+
+func (e *NotificationHubError) Is(target error) bool <span class="cov0" title="0">{
+        if t, ok := target.(*NotificationHubError); ok </span><span class="cov0" title="0">{
+                return e.Code == t.Code
+        }</span>
+        <span class="cov0" title="0">return false</span>
+}
+
+// IsRetryable returns true if the error indicates the request can be retried
+func (e *NotificationHubError) IsRetryable() bool <span class="cov0" title="0">{
+        switch e.Code </span>{
+        case ErrorCodeServerError, ErrorCodeServiceUnavailable, ErrorCodeTimeout:<span class="cov0" title="0">
+                return true</span>
+        case ErrorCodeRateLimited:<span class="cov0" title="0">
+                return true</span> // with backoff
+        default:<span class="cov0" title="0">
+                return false</span>
+        }
+}
+
+// IsAuthenticationError returns true if the error is related to authentication
+func (e *NotificationHubError) IsAuthenticationError() bool <span class="cov0" title="0">{
+        switch e.Code </span>{
+        case ErrorCodeInvalidConnectionString, ErrorCodeAuthenticationFailed, ErrorCodeUnauthorized:<span class="cov0" title="0">
+                return true</span>
+        default:<span class="cov0" title="0">
+                return false</span>
+        }
+}
+
+// NewError creates a new NotificationHubError
+func NewError(code ErrorCode, message string) *NotificationHubError <span class="cov0" title="0">{
+        return &amp;NotificationHubError{
+                Code:    code,
+                Message: message,
+        }
+}</span>
+
+// NewErrorWithCause creates a new NotificationHubError with a cause
+func NewErrorWithCause(code ErrorCode, message string, cause error) *NotificationHubError <span class="cov0" title="0">{
+        return &amp;NotificationHubError{
+                Code:    code,
+                Message: message,
+                Cause:   cause,
+        }
+}</span>
+
+// NewErrorFromHTTPResponse creates an error from an HTTP response
+func NewErrorFromHTTPResponse(resp *http.Response, body []byte) *NotificationHubError <span class="cov0" title="0">{
+        err := &amp;NotificationHubError{
+                StatusCode: resp.StatusCode,
+                RequestID:  resp.Header.Get("x-ms-request-id"),
+        }
+
+        switch resp.StatusCode </span>{
+        case http.StatusBadRequest:<span class="cov0" title="0">
+                err.Code = ErrorCodeInvalidRequest
+                err.Message = "Bad request"</span>
+        case http.StatusUnauthorized:<span class="cov0" title="0">
+                err.Code = ErrorCodeUnauthorized
+                err.Message = "Unauthorized"</span>
+        case http.StatusForbidden:<span class="cov0" title="0">
+                err.Code = ErrorCodeAuthenticationFailed
+                err.Message = "Authentication failed"</span>
+        case http.StatusNotFound:<span class="cov0" title="0">
+                err.Code = ErrorCodeRegistrationNotFound
+                err.Message = "Resource not found"</span>
+        case http.StatusRequestEntityTooLarge:<span class="cov0" title="0">
+                err.Code = ErrorCodePayloadTooLarge
+                err.Message = "Payload too large"</span>
+        case http.StatusTooManyRequests:<span class="cov0" title="0">
+                err.Code = ErrorCodeRateLimited
+                err.Message = "Rate limited"</span>
+        case http.StatusInternalServerError:<span class="cov0" title="0">
+                err.Code = ErrorCodeServerError
+                err.Message = "Internal server error"</span>
+        case http.StatusServiceUnavailable:<span class="cov0" title="0">
+                err.Code = ErrorCodeServiceUnavailable
+                err.Message = "Service unavailable"</span>
+        case http.StatusGatewayTimeout:<span class="cov0" title="0">
+                err.Code = ErrorCodeTimeout
+                err.Message = "Gateway timeout"</span>
+        default:<span class="cov0" title="0">
+                err.Code = ErrorCodeServerError
+                err.Message = fmt.Sprintf("HTTP %d", resp.StatusCode)</span>
+        }
+
+        <span class="cov0" title="0">if len(body) &gt; 0 </span><span class="cov0" title="0">{
+                err.Details = string(body)
+        }</span>
+
+        <span class="cov0" title="0">return err</span>
+}
+
+// ValidationError represents input validation errors
+type ValidationError struct {
+        Field   string
+        Message string
+        Value   interface{}
+}
+
+// Error implements the error interface
+func (e *ValidationError) Error() string <span class="cov0" title="0">{
+        return fmt.Sprintf("validation error for field '%s': %s (value: %v)", e.Field, e.Message, e.Value)
+}</span>
+
+// NewValidationError creates a new validation error
+func NewValidationError(field, message string, value interface{}) *ValidationError <span class="cov0" title="0">{
+        return &amp;ValidationError{
+                Field:   field,
+                Message: message,
+                Value:   value,
+        }
+}</span>
+
+// MultiError represents multiple errors
+type MultiError struct {
+        Errors []error
+}
+
+// Error implements the error interface
+func (e *MultiError) Error() string <span class="cov0" title="0">{
+        if len(e.Errors) == 1 </span><span class="cov0" title="0">{
+                return e.Errors[0].Error()
+        }</span>
+        <span class="cov0" title="0">return fmt.Sprintf("multiple errors occurred (%d errors)", len(e.Errors))</span>
+}
+
+// Add adds an error to the multi-error
+func (e *MultiError) Add(err error) <span class="cov0" title="0">{
+        if err != nil </span><span class="cov0" title="0">{
+                e.Errors = append(e.Errors, err)
+        }</span>
+}
+
+// HasErrors returns true if there are any errors
+func (e *MultiError) HasErrors() bool <span class="cov0" title="0">{
+        return len(e.Errors) &gt; 0
+}</span>
+
+// ToError returns the multi-error as a single error, or nil if no errors
+func (e *MultiError) ToError() error <span class="cov0" title="0">{
+        if !e.HasErrors() </span><span class="cov0" title="0">{
+                return nil
+        }</span>
+        <span class="cov0" title="0">return e</span>
+}
+
+// NewMultiError creates a new multi-error
+func NewMultiError() *MultiError <span class="cov0" title="0">{
+        return &amp;MultiError{
+                Errors: make([]error, 0),
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package notificationhubs
+
+import (
+        "bytes"
+        "context"
+        "encoding/json"
+        "fmt"
+        "path"
+)
+
+// Installation reads one specific installation
+func (h *NotificationHub) Installation(ctx context.Context, installationID string) (raw []byte, installation *Installation, err error) <span class="cov8" title="1">{
+        var (
+                instURL = h.generateAPIURL(path.Join("installations", installationID))
+        )
+
+        raw, _, err = h.exec(ctx, getMethod, instURL, Headers{}, nil)
+        if err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+
+        <span class="cov8" title="1">err = json.Unmarshal(raw, &amp;installation)
+        return</span>
+}
+
+// Install sends a device installation to the Azure hub
+func (h *NotificationHub) Install(ctx context.Context, installation Installation) (err error) <span class="cov8" title="1">{
+        var (
+                instURL = h.generateAPIURL(path.Join("installations", installation.InstallationID))
+                headers = map[string]string{
+                        "Content-Type": "application/json",
+                }
+        )
+
+        raw, err := json.Marshal(installation)
+        if err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+
+        <span class="cov8" title="1">_, _, err = h.exec(ctx, putMethod, instURL, headers, bytes.NewBuffer(raw))
+        return</span>
+}
+
+// Update sends a collection of installation changes to the Azure hub
+func (h *NotificationHub) Update(ctx context.Context, installationID string, changes ...InstallationChange) (err error) <span class="cov8" title="1">{
+        var (
+                instURL = h.generateAPIURL(path.Join("installations", installationID))
+                headers = map[string]string{
+                        "Content-Type": "application/json-patch+json",
+                }
+        )
+
+        raw, err := json.Marshal(changes)
+        if err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+
+        <span class="cov8" title="1">_, _, err = h.exec(ctx, patchMethod, instURL, headers, bytes.NewBuffer(raw))
+        return</span>
+}
+
+// SetPushChannel sets the installation push channel
+func SetPushChannel(pushChannel string) InstallationChange <span class="cov8" title="1">{
+        return InstallationChange{Op: InstallationChangeReplace, Path: "/pushChannel", Value: pushChannel}
+}</span>
+
+// SetTags sets the installation tags
+func SetTags(tags ...string) InstallationChange <span class="cov8" title="1">{
+        raw, _ := json.Marshal(tags)
+        return InstallationChange{Op: InstallationChangeReplace, Path: "/tags", Value: string(raw)}
+}</span>
+
+// AddTag adds a tag to the installation
+func AddTag(tag string) InstallationChange <span class="cov8" title="1">{
+        return InstallationChange{Op: InstallationChangeAdd, Path: "/tags", Value: tag}
+}</span>
+
+// RemoveTag removes a tag from the installation
+func RemoveTag(tag string) InstallationChange <span class="cov8" title="1">{
+        return InstallationChange{Op: InstallationChangeRemove, Path: "/tags/" + tag}
+}</span>
+
+// SetTemplates sets the installation templates
+// Deprecated: doesn't appear to be supported
+func SetTemplates(templates map[string]InstallationTemplate) InstallationChange <span class="cov0" title="0">{
+        raw, _ := json.Marshal(templates)
+        return InstallationChange{Op: InstallationChangeReplace, Path: "/templates", Value: string(raw)}
+}</span>
+
+// AddTemplate adds a template to the installation
+func AddTemplate(name string, template InstallationTemplate) InstallationChange <span class="cov8" title="1">{
+        raw, _ := json.Marshal(template)
+        return InstallationChange{Op: InstallationChangeAdd, Path: "/templates/" + name, Value: string(raw)}
+}</span>
+
+// SetTemplateBody sets the body on a template in the installation
+func SetTemplateBody(name, body string) InstallationChange <span class="cov8" title="1">{
+        return InstallationChange{Op: InstallationChangeReplace, Path: fmt.Sprintf("/templates/%s/body", name), Value: body}
+}</span>
+
+// SetTemplateHeaders sets the headers on a template in the installation
+func SetTemplateHeaders(name string, headers map[string]string) InstallationChange <span class="cov8" title="1">{
+        raw, _ := json.Marshal(headers)
+        return InstallationChange{Op: InstallationChangeReplace, Path: fmt.Sprintf("/templates/%s/headers", name), Value: string(raw)}
+}</span>
+
+// SetTemplateTags sets the tags on a template in the installation
+func SetTemplateTags(name string, tags ...string) InstallationChange <span class="cov8" title="1">{
+        raw, _ := json.Marshal(tags)
+        return InstallationChange{Op: InstallationChangeReplace, Path: fmt.Sprintf("/templates/%s/tags", name), Value: string(raw)}
+}</span>
+
+// AddTemplateTag adds a tag to a template in the installation
+func AddTemplateTag(name, tag string) InstallationChange <span class="cov8" title="1">{
+        return InstallationChange{Op: InstallationChangeAdd, Path: fmt.Sprintf("/templates/%s/tags", name), Value: tag}
+}</span>
+
+// RemoveTemplateTag removes a tag from a template in the installation
+func RemoveTemplateTag(name, tag string) InstallationChange <span class="cov8" title="1">{
+        return InstallationChange{Op: InstallationChangeRemove, Path: fmt.Sprintf("/templates/%s/tags/%s", name, tag)}
+}</span>
+
+// RemoveTemplate removes a template from the installation
+func RemoveTemplate(name string) InstallationChange <span class="cov8" title="1">{
+        return InstallationChange{Op: InstallationChangeRemove, Path: "/templates/" + name}
+}</span>
+
+// SetSecondaryTiles sets the installation secondary tiles
+// Deprecated: doesn't appear to be supported
+func SetSecondaryTiles(secondaryTiles map[string]InstallationSecondaryTile) InstallationChange <span class="cov0" title="0">{
+        raw, _ := json.Marshal(secondaryTiles)
+        return InstallationChange{Op: InstallationChangeReplace, Path: "/secondaryTiles", Value: string(raw)}
+}</span>
+
+// AddSecondaryTile adds a secondary tile to the installation
+// Deprecated: doesn't appear to be supported
+func AddSecondaryTile(name string, secondaryTile InstallationSecondaryTile) InstallationChange <span class="cov0" title="0">{
+        raw, _ := json.Marshal(secondaryTile)
+        return InstallationChange{Op: InstallationChangeAdd, Path: "/secondaryTiles/" + name, Value: string(raw)}
+}</span>
+
+// SetSecondaryTilePushChannel sets the push channel on a secondary tile in the installation
+func SetSecondaryTilePushChannel(name, pushChannel string) InstallationChange <span class="cov8" title="1">{
+        return InstallationChange{Op: InstallationChangeReplace, Path: fmt.Sprintf("/secondaryTiles/%s/pushChannel", name), Value: pushChannel}
+}</span>
+
+// SetSecondaryTileTags sets the tags on a secondary tile in the installation
+func SetSecondaryTileTags(name string, tags ...string) InstallationChange <span class="cov8" title="1">{
+        raw, _ := json.Marshal(tags)
+        return InstallationChange{Op: InstallationChangeReplace, Path: fmt.Sprintf("/secondaryTiles/%s/tags", name), Value: string(raw)}
+}</span>
+
+// AddSecondaryTileTag adds a tag to a secondary tile in the installation
+func AddSecondaryTileTag(name, tag string) InstallationChange <span class="cov8" title="1">{
+        return InstallationChange{Op: InstallationChangeAdd, Path: fmt.Sprintf("/secondaryTiles/%s/tags", name), Value: tag}
+}</span>
+
+// RemoveSecondaryTileTag removes a tag from a secondary tile in the installation
+func RemoveSecondaryTileTag(name, tag string) InstallationChange <span class="cov8" title="1">{
+        return InstallationChange{Op: InstallationChangeRemove, Path: fmt.Sprintf("/secondaryTiles/%s/tags/%s", name, tag)}
+}</span>
+
+// SetSecondaryTileTemplates sets the installation templates
+func SetSecondaryTileTemplates(name string, templates map[string]InstallationTemplate) InstallationChange <span class="cov8" title="1">{
+        raw, _ := json.Marshal(templates)
+        return InstallationChange{Op: InstallationChangeReplace, Path: fmt.Sprintf("/secondaryTiles/%s/templates", name), Value: string(raw)}
+}</span>
+
+// AddSecondaryTileTemplate adds a template to the installation
+func AddSecondaryTileTemplate(name, templateName string, template InstallationTemplate) InstallationChange <span class="cov8" title="1">{
+        raw, _ := json.Marshal(template)
+        return InstallationChange{Op: InstallationChangeAdd, Path: fmt.Sprintf("/secondaryTiles/%s/templates/%s", name, templateName), Value: string(raw)}
+}</span>
+
+// SetSecondaryTileTemplateBody sets the body on a template in the installation
+func SetSecondaryTileTemplateBody(name, template, body string) InstallationChange <span class="cov8" title="1">{
+        return InstallationChange{Op: InstallationChangeReplace, Path: fmt.Sprintf("/secondaryTiles/%s/templates/%s/body", name, template), Value: body}
+}</span>
+
+// SetSecondaryTileTemplateHeaders sets the headers on a template in the installation
+func SetSecondaryTileTemplateHeaders(name, template string, headers map[string]string) InstallationChange <span class="cov8" title="1">{
+        raw, _ := json.Marshal(headers)
+        return InstallationChange{Op: InstallationChangeReplace, Path: fmt.Sprintf("/secondaryTiles/%s/templates/%s/headers", name, template), Value: string(raw)}
+}</span>
+
+// SetSecondaryTileTemplateTags sets the tags on a template in the installation
+func SetSecondaryTileTemplateTags(name, template string, tags ...string) InstallationChange <span class="cov8" title="1">{
+        raw, _ := json.Marshal(tags)
+        return InstallationChange{Op: InstallationChangeReplace, Path: fmt.Sprintf("/secondaryTiles/%s/templates/%s/tags", name, template), Value: string(raw)}
+}</span>
+
+// RemoveSecondaryTileTemplate removes a template from the installation
+func RemoveSecondaryTileTemplate(name, template string) InstallationChange <span class="cov8" title="1">{
+        return InstallationChange{Op: InstallationChangeRemove, Path: fmt.Sprintf("/secondaryTiles/%s/templates/%s", name, template)}
+}</span>
+
+// RemoveSecondaryTile removes a secondary tile from the installation
+// Deprecated: doesn't appear to be supported
+func RemoveSecondaryTile(name string) InstallationChange <span class="cov0" title="0">{
+        return InstallationChange{Op: InstallationChangeRemove, Path: "/secondaryTiles/" + name}
+}</span>
+
+// Uninstall sends a device installation delete to the Azure hub
+func (h *NotificationHub) Uninstall(ctx context.Context, installationID string) (err error) <span class="cov8" title="1">{
+        var (
+                instURL = h.generateAPIURL(path.Join("installations", installationID))
+                headers = map[string]string{
+                        "Content-Type": "application/json",
+                }
+        )
+
+        _, _, err = h.exec(ctx, deleteMethod, instURL, headers, nil)
+        return
+}</span>
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package notificationhubs
+
+// Internal constants
+const (
+        apiVersionParam = "api-version"
+
+        // Latest API version for Azure Notification Hubs service operations
+        // 2016-07 is the latest available and provides enhanced features like PNS error details
+        // while maintaining full backward compatibility with 2015-01
+        apiVersionValue = "2016-07"
+
+        // Legacy API version (maintained for reference)
+        legacyAPIVersionValue = "2015-01"
+
+        // Current telemetry API version (same as latest service API)
+        telemetryAPIVersionValue = "2016-07"
+
+        directParam = "direct"
+)
+
+// API version helpers
+const (
+        // Latest API version for all notification hub operations
+        // Using 2016-07 provides enhanced features including PNS error details
+        LatestAPIVersion = apiVersionValue
+
+        // Legacy API version (for backward compatibility reference)
+        LegacyAPIVersion = legacyAPIVersionValue
+
+        // Default API version (same as latest)
+        DefaultAPIVersion = LatestAPIVersion
+)
+
+// GetAPIVersionForOperation returns the latest API version for all operations
+// All operations now use 2016-07 for enhanced features and better error reporting
+func GetAPIVersionForOperation(operationType string) string <span class="cov10" title="6">{
+        // All operations use the latest API version for consistency and enhanced features
+        return LatestAPIVersion
+}</span>
+
+// Internal constants continued
+const (
+        // for connection string parsing
+        schemeServiceBus  = "sb"
+        schemeDefault     = "https"
+        paramEndpoint     = "Endpoint="
+        paramSaasKeyName  = "SharedAccessKeyName="
+        paramSaasKeyValue = "SharedAccessKey="
+
+        // Http methods
+        deleteMethod = "DELETE"
+        getMethod    = "GET"
+        postMethod   = "POST"
+        putMethod    = "PUT"
+        patchMethod  = "PATCH"
+
+        // appleRegXMLString is the XML string for registering an iOS device
+        // Replace {{Tags}} and {{DeviceID}} with the correct values
+        appleRegXMLString string = `&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;entry xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;content type="application/xml"&gt;
+    &lt;AppleRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"&gt;
+      &lt;Tags&gt;{{Tags}}&lt;/Tags&gt;
+      &lt;DeviceToken&gt;{{DeviceID}}&lt;/DeviceToken&gt;
+    &lt;/AppleRegistrationDescription&gt;
+  &lt;/content&gt;
+&lt;/entry&gt;`
+
+        // appleTemplateRegXMLString is the XML string for registering an iOS device
+        // Replace {{Tags}}, {{DeviceID}} and {{Template}} with the correct values
+        appleTemplateRegXMLString string = `&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;entry xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;content type="application/xml"&gt;
+    &lt;AppleTemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"&gt;
+      &lt;Tags&gt;{{Tags}}&lt;/Tags&gt;
+      &lt;DeviceToken&gt;{{DeviceID}}&lt;/DeviceToken&gt;
+      &lt;BodyTemplate&gt;&lt;![CDATA[{{Template}}]]&gt;&lt;/BodyTemplate&gt;
+    &lt;/AppleTemplateRegistrationDescription&gt;
+  &lt;/content&gt;
+&lt;/entry&gt;`
+
+        // fcmV1RegXMLString is the XML string for registering an FCM v1 device
+        // Replace {{Tags}} and {{DeviceID}} with the correct values
+        fcmV1RegXMLString string = `&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;entry xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;content type="application/xml"&gt;
+    &lt;FcmV1RegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"&gt;
+      &lt;Tags&gt;{{Tags}}&lt;/Tags&gt;
+      &lt;FcmV1RegistrationId&gt;{{DeviceID}}&lt;/FcmV1RegistrationId&gt;
+    &lt;/FcmV1RegistrationDescription&gt;
+  &lt;/content&gt;
+&lt;/entry&gt;`
+
+        // fcmV1TemplateRegXMLString is the XML string for registering an FCM v1 device with template
+        // Replace {{Tags}}, {{DeviceID}} and {{Template}} with the correct values
+        fcmV1TemplateRegXMLString string = `&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;entry xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;content type="application/xml"&gt;
+    &lt;FcmV1TemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"&gt;
+      &lt;Tags&gt;{{Tags}}&lt;/Tags&gt;
+      &lt;FcmV1RegistrationId&gt;{{DeviceID}}&lt;/FcmV1RegistrationId&gt;
+      &lt;BodyTemplate&gt;&lt;![CDATA[{{Template}}]]&gt;&lt;/BodyTemplate&gt;
+    &lt;/FcmV1TemplateRegistrationDescription&gt;
+  &lt;/content&gt;
+&lt;/entry&gt;`
+)
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">// Package notificationhubs provides a module for Microsoft Azure Notification Hubs.
+package notificationhubs
+
+import "time"
+
+// NewNotificationHub initializes and returns NotificationHub pointer
+func NewNotificationHub(connectionString, hubPath string) *NotificationHub <span class="cov10" title="22">{
+        return newNotificationHub(connectionString, hubPath)
+}</span>
+
+// NewNotification initializes and returns Notification pointer
+func NewNotification(format NotificationFormat, payload []byte) (*Notification, error) <span class="cov9" title="17">{
+        return newNotification(format, payload)
+}</span>
+
+// NewRegistration initializes and returns a Notification pointer
+func NewRegistration(deviceID string, expirationTime *time.Time, notificationFormat NotificationFormat,
+        registrationID string, tags string) *Registration <span class="cov0" title="0">{
+        return newRegistration(deviceID, expirationTime, notificationFormat, registrationID, tags)
+}</span>
+
+// NewTemplateRegistration initializes and returns a TemplateNotification pointer
+func NewTemplateRegistration(deviceID string, expirationTime *time.Time, registrationID string, tags string,
+        platform TargetPlatform, template string) *TemplateRegistration <span class="cov0" title="0">{
+        return newTemplateRegistration(deviceID, expirationTime, registrationID, tags, platform, template)
+}</span>
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package notificationhubs
+
+import (
+        "encoding/json"
+        "fmt"
+)
+
+type (
+        // Notification is a message that can be sent through the hub
+        Notification struct {
+                Format  NotificationFormat
+                Payload []byte
+        }
+
+        // IosBackgroundNotificationPayload is the payload required for a background notification
+        IosBackgroundNotificationPayload struct {
+                Aps struct {
+                        ContentAvailable int `json:"content-available"`
+                } `json:"aps"`
+        }
+)
+
+// newNotification initializes and returns a Notification pointer
+func newNotification(format NotificationFormat, payload []byte) (*Notification, error) <span class="cov10" title="17">{
+        if !format.IsValid() </span><span class="cov1" title="1">{
+                return nil, fmt.Errorf("unknown format '%s'", format)
+        }</span>
+
+        <span class="cov9" title="16">return &amp;Notification{format, payload}, nil</span>
+}
+
+// String returns Notification string representation
+func (n *Notification) String() string <span class="cov0" title="0">{
+        return fmt.Sprintf("&amp;{%s %s}", n.Format, string(n.Payload))
+}</span>
+
+func isIosBackgroundNotification(payload []byte) bool <span class="cov3" title="2">{
+        var backgroundNotification IosBackgroundNotificationPayload
+        err := json.Unmarshal(payload, &amp;backgroundNotification)
+        if err != nil </span><span class="cov0" title="0">{
+                return false
+        }</span>
+
+        <span class="cov3" title="2">return backgroundNotification.Aps.ContentAvailable == 1</span>
+}
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package notificationhubs
+
+import (
+        "context"
+        "crypto/hmac"
+        "crypto/sha256"
+        "encoding/base64"
+        "fmt"
+        "io"
+        "net/http"
+        "net/url"
+        "path"
+        "strings"
+
+        "github.com/koreset/azure-notificationhubs-go/utils"
+)
+
+// NotificationHub is a client for sending messages through Azure Notification Hubs
+type NotificationHub struct {
+        SasKeyValue string
+        SasKeyName  string
+        HubURL      *url.URL
+
+        client                  utils.HTTPClient
+        expirationTimeGenerator utils.ExpirationTimeGenerator
+}
+
+// newNotificationHub initializes and returns NotificationHub pointer
+func newNotificationHub(connectionString, hubPath string) *NotificationHub <span class="cov7" title="22">{
+        var (
+                connData    = strings.Split(connectionString, ";")
+                _url        = &amp;url.URL{}
+                sasKeyName  = ""
+                sasKeyValue = ""
+        )
+        for _, connItem := range connData </span><span class="cov10" title="64">{
+                if strings.HasPrefix(connItem, paramEndpoint) </span><span class="cov7" title="21">{
+                        hubURL, err := url.Parse(connItem[len(paramEndpoint):])
+                        if err == nil </span><span class="cov7" title="21">{
+                                _url = hubURL
+                        }</span>
+                        <span class="cov7" title="21">continue</span>
+                }
+
+                <span class="cov9" title="43">if strings.HasPrefix(connItem, paramSaasKeyName) </span><span class="cov7" title="21">{
+                        sasKeyName = connItem[len(paramSaasKeyName):]
+                        continue</span>
+                }
+
+                <span class="cov7" title="22">if strings.HasPrefix(connItem, paramSaasKeyValue) </span><span class="cov7" title="21">{
+                        sasKeyValue = connItem[len(paramSaasKeyValue):]
+                        continue</span>
+                }
+        }
+
+        <span class="cov7" title="22">if _url.Scheme == schemeServiceBus || _url.Scheme == "" </span><span class="cov7" title="22">{
+                _url.Scheme = schemeDefault
+        }</span>
+
+        <span class="cov7" title="22">_url.Path = hubPath
+        _url.RawQuery = url.Values{apiVersionParam: {apiVersionValue}}.Encode()
+        return &amp;NotificationHub{
+                SasKeyName:  sasKeyName,
+                SasKeyValue: sasKeyValue,
+                HubURL:      _url,
+
+                client:                  utils.NewHubHTTPClient(),
+                expirationTimeGenerator: utils.NewExpirationTimeGenerator(),
+        }</span>
+}
+
+// SetHTTPClient makes it possible to use a custom http client
+func (h *NotificationHub) SetHTTPClient(c utils.HTTPClient) <span class="cov7" title="20">{
+        h.client = c
+}</span>
+
+// SetExpirationTimeGenerator makes is possible to use a custom generator
+func (h *NotificationHub) SetExpirationTimeGenerator(e utils.ExpirationTimeGenerator) <span class="cov7" title="20">{
+        h.expirationTimeGenerator = e
+}</span>
+
+// generateSasToken generates and returns
+// azure notification hub shared access signature token
+func (h *NotificationHub) generateSasToken() string <span class="cov7" title="19">{
+        uri := &amp;url.URL{
+                Host:   h.HubURL.Host,
+                Scheme: h.HubURL.Scheme,
+        }
+        targetURI := strings.ToLower(uri.String())
+
+        expires := h.expirationTimeGenerator.GenerateTimestamp()
+        toSign := fmt.Sprintf("%s\n%d", url.QueryEscape(targetURI), expires)
+
+        mac := hmac.New(sha256.New, []byte(h.SasKeyValue))
+        mac.Write([]byte(toSign))
+        macb := mac.Sum(nil)
+
+        signature := base64.StdEncoding.EncodeToString(macb)
+
+        tokenParams := url.Values{
+                "sr":  {targetURI},
+                "sig": {signature},
+                "se":  {fmt.Sprintf("%d", expires)},
+                "skn": {h.SasKeyName},
+        }
+
+        return fmt.Sprintf("SharedAccessSignature %s", tokenParams.Encode())
+}</span>
+
+// exec request using method to url
+func (h *NotificationHub) exec(ctx context.Context, method string, url *url.URL, headers Headers, buf io.Reader) ([]byte, *http.Response, error) <span class="cov7" title="19">{
+        headers["Authorization"] = h.generateSasToken()
+        req, err := http.NewRequest(method, url.String(), buf)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, nil, err
+        }</span>
+        <span class="cov7" title="19">req = req.WithContext(ctx)
+        for header, val := range headers </span><span class="cov9" title="59">{
+                req.Header.Set(header, val)
+        }</span>
+        <span class="cov7" title="19">return h.client.Exec(req)</span>
+}
+
+// generate an URL for path
+func (h *NotificationHub) generateAPIURL(endpoint string) *url.URL <span class="cov7" title="19">{
+        return &amp;url.URL{
+                Host:     h.HubURL.Host,
+                Scheme:   h.HubURL.Scheme,
+                Path:     path.Join(h.HubURL.Path, endpoint),
+                RawQuery: h.HubURL.RawQuery,
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">package notificationhubs
+
+// GetContentType returns Content-Type
+// associated with NotificationFormat
+func (f NotificationFormat) GetContentType() string <span class="cov9" title="23">{
+        switch f </span>{
+        case Template,
+                AppleFormat,
+                FcmV1Format,
+                KindleFormat,
+                BaiduFormat:<span class="cov9" title="21">
+                return "application/json"</span>
+        }
+
+        <span class="cov2" title="2">return "application/xml"</span>
+}
+
+// IsValid identifies whether notification format is valid
+func (f NotificationFormat) IsValid() bool <span class="cov10" title="26">{
+        return f == Template ||
+                f == FcmV1Format ||
+                f == AppleFormat ||
+                f == BaiduFormat ||
+                f == KindleFormat ||
+                f == WindowsFormat ||
+                f == WindowsPhoneFormat
+}</span>
+
+// IsValid identifies whether target is valid
+func (f TargetPlatform) IsValid() bool <span class="cov8" title="16">{
+        return f == AdmPlatform ||
+                f == AdmTemplatePlatform ||
+                f == ApplePlatform ||
+                f == AppleTemplatePlatform ||
+                f == BaiduPlatform ||
+                f == BaiduTemplatePlatform ||
+                f == FcmV1Platform ||
+                f == FcmV1TemplatePlatform ||
+                f == TemplatePlatform ||
+                f == WindowsphonePlatform ||
+                f == WindowsphoneTemplatePlatform ||
+                f == WindowsPlatform ||
+                f == WindowsTemplatePlatform
+}</span>
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package notificationhubs
+
+import (
+        "bytes"
+        "context"
+        "encoding/xml"
+        "errors"
+        "path"
+        "strings"
+        "time"
+)
+
+// newRegistration initializes and returns a Notification pointer
+func newRegistration(deviceID string, expirationTime *time.Time, notificationFormat NotificationFormat,
+        registrationID string, tags string) *Registration <span class="cov0" title="0">{
+        return &amp;Registration{
+                deviceID,
+                expirationTime,
+                notificationFormat,
+                registrationID,
+                tags,
+        }
+}</span>
+
+// newTemplateRegistration initializes and returns a TemplateNotification pointer
+func newTemplateRegistration(deviceID string, expirationTime *time.Time, registrationID string, tags string,
+        platform TargetPlatform, template string) *TemplateRegistration <span class="cov0" title="0">{
+        return &amp;TemplateRegistration{
+                deviceID,
+                expirationTime,
+                registrationID,
+                tags,
+                platform,
+                template,
+        }
+}</span>
+
+// Normalize normalizes all devices in the feed
+func (r *Registrations) normalize() <span class="cov1" title="1">{
+        for _, entry := range r.Entries </span><span class="cov7" title="4">{
+                if entry.RegistrationContent != nil </span><span class="cov7" title="4">{
+                        entry.RegistrationContent.normalize()
+                }</span>
+        }
+}
+
+// Normalize the registration result
+func (r RegistrationResult) normalize() <span class="cov6" title="3">{
+        if r.RegistrationContent != nil </span><span class="cov6" title="3">{
+                r.RegistrationContent.normalize()
+        }</span>
+}
+
+// Normalize normalizes the different devices
+func (r *RegistrationContent) normalize() <span class="cov10" title="7">{
+        if r.AppleRegistrationDescription != nil || r.AppleTemplateRegistrationDescription != nil </span><span class="cov8" title="5">{
+                if r.AppleTemplateRegistrationDescription != nil </span><span class="cov1" title="1">{
+                        r.Format = Template
+                        r.Target = AppleTemplatePlatform
+                        r.RegisteredDevice = r.AppleTemplateRegistrationDescription
+                }</span> else<span class="cov7" title="4"> {
+                        r.Format = AppleFormat
+                        r.Target = ApplePlatform
+                        r.RegisteredDevice = r.AppleRegistrationDescription
+                }</span>
+                <span class="cov8" title="5">r.RegisteredDevice.DeviceID = *r.RegisteredDevice.DeviceToken
+                r.RegisteredDevice.DeviceToken = nil
+                r.AppleRegistrationDescription = nil
+                r.AppleTemplateRegistrationDescription = nil</span>
+        } else<span class="cov4" title="2"> if r.FcmV1RegistrationDescription != nil || r.FcmV1TemplateRegistrationDescription != nil </span><span class="cov4" title="2">{
+                if r.FcmV1TemplateRegistrationDescription != nil </span><span class="cov0" title="0">{
+                        r.Format = Template
+                        r.Target = FcmV1TemplatePlatform
+                        r.RegisteredDevice = r.FcmV1TemplateRegistrationDescription
+                }</span> else<span class="cov4" title="2"> {
+                        r.Format = FcmV1Format
+                        r.Target = FcmV1Platform
+                        r.RegisteredDevice = r.FcmV1RegistrationDescription
+                }</span>
+                <span class="cov4" title="2">r.RegisteredDevice.DeviceID = *r.RegisteredDevice.FcmV1RegistrationID
+                r.RegisteredDevice.FcmV1RegistrationID = nil
+                r.FcmV1RegistrationDescription = nil
+                r.FcmV1TemplateRegistrationDescription = nil</span>
+        }
+        <span class="cov10" title="7">if r.RegisteredDevice != nil </span><span class="cov10" title="7">{
+                expirationTime, err := time.Parse("2006-01-02T15:04:05.000Z", *r.RegisteredDevice.ExpirationTimeString)
+                if err != nil </span><span class="cov4" title="2">{ // The API just forwards the date string used by Apple, Google etc unfortunately. So format varies.
+                        expirationTime, _ = time.Parse("2006-01-02T15:04:05.000", *r.RegisteredDevice.ExpirationTimeString)
+                }</span>
+                <span class="cov10" title="7">r.RegisteredDevice.ExpirationTime = &amp;expirationTime
+                r.RegisteredDevice.ExpirationTimeString = nil
+                if r.RegisteredDevice.TagsString != nil </span><span class="cov9" title="6">{
+                        r.RegisteredDevice.Tags = strings.Split(*r.RegisteredDevice.TagsString, ",")
+                }</span>
+                <span class="cov10" title="7">r.RegisteredDevice.TagsString = nil</span>
+        }
+}
+
+// Registration reads one specific registration
+func (h *NotificationHub) Registration(ctx context.Context, registrationID string) (raw []byte, registrationResult *RegistrationResult, err error) <span class="cov0" title="0">{
+        var (
+                regURL = h.generateAPIURL(path.Join("registrations", registrationID))
+        )
+        raw, _, err = h.exec(ctx, getMethod, regURL, Headers{}, nil)
+        if err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        <span class="cov0" title="0">if err = xml.Unmarshal(raw, &amp;registrationResult); err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        <span class="cov0" title="0">registrationResult.RegistrationContent.normalize()
+        return</span>
+}
+
+// Registrations reads all registrations
+func (h *NotificationHub) Registrations(ctx context.Context) (raw []byte, registrations *Registrations, err error) <span class="cov4" title="2">{
+        raw, _, err = h.exec(ctx, getMethod, h.generateAPIURL("registrations"), Headers{}, nil)
+        if err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        <span class="cov4" title="2">if err = xml.Unmarshal(raw, &amp;registrations); err != nil </span><span class="cov1" title="1">{
+                return
+        }</span>
+        <span class="cov1" title="1">registrations.normalize()
+        return</span>
+}
+
+// Register sends a device registration to the Azure hub
+func (h *NotificationHub) Register(ctx context.Context, r Registration) (raw []byte, registrationResult *RegistrationResult, err error) <span class="cov6" title="3">{
+        var (
+                regURL  = h.generateAPIURL("registrations")
+                method  = postMethod
+                payload = ""
+                headers = map[string]string{
+                        "Content-Type": "application/atom+xml;type=entry;charset=utf-8",
+                }
+        )
+
+        switch r.NotificationFormat </span>{
+        case AppleFormat:<span class="cov1" title="1">
+                payload = strings.Replace(appleRegXMLString, "{{DeviceID}}", r.DeviceID, 1)</span>
+        case FcmV1Format:<span class="cov4" title="2">
+                payload = strings.Replace(fcmV1RegXMLString, "{{DeviceID}}", r.DeviceID, 1)</span>
+        default:<span class="cov0" title="0">
+                return nil, nil, errors.New("Notification format not implemented")</span>
+        }
+        <span class="cov6" title="3">payload = strings.Replace(payload, "{{Tags}}", r.Tags, 1)
+
+        if r.RegistrationID != "" </span><span class="cov0" title="0">{
+                method = putMethod
+                regURL.Path = path.Join(regURL.Path, r.RegistrationID)
+        }</span>
+
+        <span class="cov6" title="3">raw, _, err = h.exec(ctx, method, regURL, headers, bytes.NewBufferString(payload))
+
+        if err == nil </span><span class="cov4" title="2">{
+                if err = xml.Unmarshal(raw, &amp;registrationResult); err != nil </span><span class="cov0" title="0">{
+                        return
+                }</span>
+        }
+        <span class="cov6" title="3">if registrationResult != nil </span><span class="cov4" title="2">{
+                registrationResult.normalize()
+        }</span>
+        <span class="cov6" title="3">return</span>
+}
+
+// RegisterWithTemplate sends a device registration with template to the Azure hub
+func (h *NotificationHub) RegisterWithTemplate(ctx context.Context, r TemplateRegistration) (raw []byte, registrationResult *RegistrationResult, err error) <span class="cov1" title="1">{
+        var (
+                regURL  = h.generateAPIURL("registrations")
+                method  = postMethod
+                payload = ""
+                headers = map[string]string{
+                        "Content-Type": "application/atom+xml;type=entry;charset=utf-8",
+                }
+        )
+
+        switch r.Platform </span>{
+        case ApplePlatform:<span class="cov1" title="1">
+                payload = strings.Replace(appleTemplateRegXMLString, "{{DeviceID}}", r.DeviceID, 1)</span>
+        case FcmV1Platform:<span class="cov0" title="0">
+                payload = strings.Replace(fcmV1TemplateRegXMLString, "{{DeviceID}}", r.DeviceID, 1)</span>
+        default:<span class="cov0" title="0">
+                return nil, nil, errors.New("Notification format not implemented")</span>
+        }
+        <span class="cov1" title="1">payload = strings.Replace(payload, "{{Tags}}", r.Tags, 1)
+        payload = strings.Replace(payload, "{{Template}}", r.Template, 1)
+
+        if r.RegistrationID != "" </span><span class="cov0" title="0">{
+                method = putMethod
+                regURL.Path = path.Join(regURL.Path, r.RegistrationID)
+        }</span>
+
+        <span class="cov1" title="1">raw, _, err = h.exec(ctx, method, regURL, headers, bytes.NewBufferString(payload))
+
+        if err == nil </span><span class="cov1" title="1">{
+                if err = xml.Unmarshal(raw, &amp;registrationResult); err != nil </span><span class="cov0" title="0">{
+                        return
+                }</span>
+        }
+        <span class="cov1" title="1">if registrationResult != nil </span><span class="cov1" title="1">{
+                registrationResult.normalize()
+        }</span>
+        <span class="cov1" title="1">return</span>
+}
+
+// Unregister sends a device registration delete to the Azure hub
+func (h *NotificationHub) Unregister(ctx context.Context, registration RegisteredDevice) (err error) <span class="cov1" title="1">{
+        var (
+                regURL  = h.generateAPIURL(path.Join("registrations", registration.RegistrationID))
+                headers = map[string]string{
+                        "Content-Type": "application/atom+xml;type=entry;charset=utf-8",
+                        "If-Match":     registration.ETag,
+                }
+        )
+
+        _, _, err = h.exec(ctx, deleteMethod, regURL, headers, nil)
+        return
+}</span>
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package notificationhubs
+
+import (
+        "bytes"
+        "context"
+        "encoding/json"
+        "errors"
+        "fmt"
+        "io"
+        "mime/multipart"
+        "net/textproto"
+        "net/url"
+        "path"
+        "strconv"
+        "time"
+)
+
+// Send publishes notification directly
+// Format tags according to https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-tags-segment-push-message
+// ex. "(follows_RedSox || follows_Cardinals) &amp;&amp; location_Boston"
+// or nil if no tags should be used
+func (h *NotificationHub) Send(ctx context.Context, n *Notification, tags *string) (raw []byte, telemetry *NotificationTelemetry, err error) <span class="cov7" title="5">{
+        raw, telemetry, err = h.send(ctx, n, tags, nil)
+        if err != nil </span><span class="cov1" title="1">{
+                return nil, nil, fmt.Errorf("notificationhubs.SendDirect: %s", err)
+        }</span>
+        <span class="cov7" title="4">return</span>
+}
+
+// SendDirect publishes notification to a specific device
+func (h *NotificationHub) SendDirect(ctx context.Context, n *Notification, deviceHandle string) (raw []byte, telemetry *NotificationTelemetry, err error) <span class="cov0" title="0">{
+        raw, telemetry, err = h.sendDirect(ctx, n, deviceHandle)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, nil, fmt.Errorf("notificationhubs.SendDirect: %s", err)
+        }</span>
+        <span class="cov0" title="0">return</span>
+}
+
+// SendDirectBatch publishes notification to a collection of devices
+func (h *NotificationHub) SendDirectBatch(ctx context.Context, n *Notification, deviceHandles ...string) (raw []byte, telemetry *NotificationTelemetry, err error) <span class="cov1" title="1">{
+        raw, telemetry, err = h.sendDirectBatch(ctx, n, deviceHandles)
+        if err != nil </span><span class="cov1" title="1">{
+                return nil, nil, fmt.Errorf("notificationhubs.SendDirectBatch: %s", err)
+        }</span>
+        <span class="cov0" title="0">return</span>
+}
+
+// Schedule publishes a scheduled notification
+// Format tags according to https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-tags-segment-push-message
+// or nil if no tags should be used
+func (h *NotificationHub) Schedule(ctx context.Context, n *Notification, tags *string, deliverTime time.Time) (raw []byte, telemetry *NotificationTelemetry, err error) <span class="cov5" title="3">{
+        raw, telemetry, err = h.send(ctx, n, tags, &amp;deliverTime)
+        if err != nil </span><span class="cov4" title="2">{
+                return nil, nil, fmt.Errorf("notificationhubs.Schedule: %s", err)
+        }</span>
+        <span class="cov1" title="1">return</span>
+}
+
+// send sends notification to the azure hub
+func (h *NotificationHub) send(ctx context.Context, n *Notification, tags *string, deliverTime *time.Time) (raw []byte, telemetry *NotificationTelemetry, err error) <span class="cov10" title="8">{
+        var (
+                headers = map[string]string{
+                        "Content-Type":                  n.Format.GetContentType(),
+                        "ServiceBusNotification-Format": string(n.Format),
+                        "X-Apns-Expiration":             strconv.FormatInt(h.expirationTimeGenerator.GenerateTimestamp(), 10), //apns-expiration
+                }
+                _url = h.generateAPIURL("")
+        )
+
+        if tags != nil &amp;&amp; len(*tags) &gt; 0 </span><span class="cov1" title="1">{
+                headers["ServiceBusNotification-Tags"] = *tags
+        }</span>
+
+        //IOS 13 and upwards require these headers to be set. They are not set by Notification Hub at the moment, so we need to send them
+        <span class="cov10" title="8">if n.Format == AppleFormat </span><span class="cov4" title="2">{
+                if isIosBackgroundNotification(n.Payload) </span><span class="cov1" title="1">{
+                        headers["X-Apns-Push-Type"] = "background"
+                        headers["X-Apns-Priority"] = "5"
+                }</span> else<span class="cov1" title="1"> {
+                        headers["X-Apns-Push-Type"] = "alert"
+                        headers["X-Apns-Priority"] = "10"
+                }</span>
+        }
+
+        <span class="cov10" title="8">if deliverTime != nil </span><span class="cov5" title="3">{
+                if deliverTime.After(time.Now()) </span><span class="cov4" title="2">{
+                        _url.Path = path.Join(_url.Path, "schedulednotifications")
+                        headers["ServiceBusNotification-ScheduleTime"] = deliverTime.Format("2006-01-02T15:04:05")
+                }</span> else<span class="cov1" title="1"> {
+                        return nil, nil, errors.New("you can not schedule a notification in the past")
+                }</span>
+        } else<span class="cov7" title="5"> {
+                _url.Path = path.Join(_url.Path, "messages")
+        }</span>
+
+        <span class="cov9" title="7">raw, response, err := h.exec(ctx, postMethod, _url, headers, bytes.NewBuffer(n.Payload))
+        if err != nil </span><span class="cov4" title="2">{
+                return
+        }</span>
+        <span class="cov7" title="5">telemetry, err = NewNotificationTelemetryFromHTTPResponse(response)
+        return</span>
+}
+
+func (h *NotificationHub) sendDirect(ctx context.Context, n *Notification, deviceHandle string) (raw []byte, telemetry *NotificationTelemetry, err error) <span class="cov0" title="0">{
+        var (
+                headers = Headers{
+                        "Content-Type":                        n.Format.GetContentType(),
+                        "ServiceBusNotification-Format":       string(n.Format),
+                        "ServiceBusNotification-DeviceHandle": deviceHandle,
+                        "X-Apns-Expiration":                   strconv.FormatInt(h.expirationTimeGenerator.GenerateTimestamp(), 10), //apns-expiration
+                }
+                query = h.HubURL.Query()
+        )
+        query.Add(directParam, "")
+        _url := &amp;url.URL{
+                Host:     h.HubURL.Host,
+                Scheme:   h.HubURL.Scheme,
+                Path:     path.Join(h.HubURL.Path, "messages"),
+                RawQuery: query.Encode(),
+        }
+        raw, response, err := h.exec(ctx, postMethod, _url, headers, bytes.NewBuffer(n.Payload))
+        if err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        <span class="cov0" title="0">telemetry, err = NewNotificationTelemetryFromHTTPResponse(response)
+        return</span>
+}
+
+func (h *NotificationHub) sendDirectBatch(ctx context.Context, n *Notification, deviceHandles []string) (raw []byte, telemetry *NotificationTelemetry, err error) <span class="cov1" title="1">{
+        if len(deviceHandles) &gt; 1000 </span><span class="cov0" title="0">{
+                err = errors.New("you can not batch send to more than 1,000 devices")
+                return
+        }</span>
+
+        <span class="cov1" title="1">buf := &amp;bytes.Buffer{}
+        multi := multipart.NewWriter(buf)
+
+        var part io.Writer
+        part, err = multi.CreatePart(textproto.MIMEHeader{
+                "Content-Type":        []string{n.Format.GetContentType()},
+                "Content-Disposition": []string{"inline; name=notification"},
+        })
+        if err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        <span class="cov1" title="1">if _, err = part.Write(n.Payload); err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+
+        <span class="cov1" title="1">part, err = multi.CreatePart(textproto.MIMEHeader{
+                "Content-Type":        []string{"application/json"},
+                "Content-Disposition": []string{"inline; name=devices"},
+        })
+        if err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        <span class="cov1" title="1">var handles []byte
+        handles, err = json.Marshal(deviceHandles)
+        if err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        <span class="cov1" title="1">if _, err = part.Write(handles); err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+
+        <span class="cov1" title="1">var (
+                headers = Headers{
+                        "Content-Type":                  multi.FormDataContentType(),
+                        "ServiceBusNotification-Format": string(n.Format),
+                        "X-Apns-Expiration":             strconv.FormatInt(h.expirationTimeGenerator.GenerateTimestamp(), 10), //apns-expiration
+                }
+                query = h.HubURL.Query()
+        )
+        query.Add(directParam, "")
+        _url := &amp;url.URL{
+                Host:     h.HubURL.Host,
+                Scheme:   h.HubURL.Scheme,
+                Path:     path.Join(h.HubURL.Path, "messages", "$batch"),
+                RawQuery: query.Encode(),
+        }
+        raw, response, err := h.exec(ctx, postMethod, _url, headers, buf)
+        if err != nil </span><span class="cov1" title="1">{
+                return
+        }</span>
+        <span class="cov0" title="0">telemetry, err = NewNotificationTelemetryFromHTTPResponse(response)
+        return</span>
+}
+</pre>
+		
+		<pre class="file" id="file9" style="display: none">package notificationhubs
+
+import (
+        "context"
+        "encoding/xml"
+        "errors"
+        "net/http"
+        "net/url"
+        "path"
+        "regexp"
+)
+
+// NotificationDetails reads one specific registration
+func (h *NotificationHub) NotificationDetails(ctx context.Context, notificationID string) (details *NotificationDetails, raw []byte, err error) <span class="cov0" title="0">{
+        var (
+                _url = h.generateAPIURL(path.Join("messages", notificationID))
+        )
+        _url.RawQuery = url.Values{apiVersionParam: {telemetryAPIVersionValue}}.Encode()
+        raw, _, err = h.exec(ctx, getMethod, _url, Headers{}, nil)
+        if err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        <span class="cov0" title="0">if err = xml.Unmarshal(raw, &amp;details); err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        <span class="cov0" title="0">return</span>
+}
+
+// NewNotificationTelemetryFromLocationURL create Telemetry from Location URL
+func NewNotificationTelemetryFromLocationURL(url string) *NotificationTelemetry <span class="cov7" title="9">{
+        var re = regexp.MustCompile(`/messages/(?P&lt;id&gt;.*)\?api-version=`)
+        groupNames := re.SubexpNames()
+        for _, match := range re.FindAllStringSubmatch(url, -1) </span><span class="cov7" title="9">{
+                for groupIdx, group := range match </span><span class="cov10" title="18">{
+                        name := groupNames[groupIdx]
+                        if name == "id" </span><span class="cov7" title="9">{
+                                return &amp;NotificationTelemetry{
+                                        NotificationMessageID: group,
+                                }
+                        }</span>
+                }
+        }
+        <span class="cov0" title="0">return nil</span>
+}
+
+// NewNotificationTelemetryFromHTTPResponse reads the Location header from URL
+// Notification Telemetry is only available for Standard tier Notification Hubs.
+func NewNotificationTelemetryFromHTTPResponse(response *http.Response) (*NotificationTelemetry, error) <span class="cov7" title="7">{
+        if response == nil || response.Header == nil </span><span class="cov0" title="0">{
+                return nil, errors.New("could not parse telemetry from response")
+        }</span>
+        <span class="cov7" title="7">location := response.Header.Get("location")
+        if len(location) == 0 </span><span class="cov0" title="0">{
+                return &amp;NotificationTelemetry{}, nil
+        }</span>
+        <span class="cov7" title="7">return NewNotificationTelemetryFromLocationURL(location), nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file10" style="display: none">package utils
+
+import "time"
+
+type (
+        // ExpirationTimeGenerator generates an expiration time
+        ExpirationTimeGenerator interface {
+                GenerateTimestamp() int64
+        }
+
+        // ExpirationTimeGeneratorFunc is a function generating expiration times
+        ExpirationTimeGeneratorFunc func() int64
+)
+
+// NewExpirationTimeGenerator creates the default generator
+func NewExpirationTimeGenerator() ExpirationTimeGenerator <span class="cov9" title="23">{
+        return ExpirationTimeGeneratorFunc(generateExpirationTimestamp)
+}</span>
+
+// GenerateTimestamp calls f()
+func (f ExpirationTimeGeneratorFunc) GenerateTimestamp() int64 <span class="cov10" title="29">{
+        return f()
+}</span>
+
+// generateExpirationTimestamp generates token expiration timestamp value
+func generateExpirationTimestamp() int64 <span class="cov0" title="0">{
+        return time.Now().Unix() + int64(3600)
+}</span>
+</pre>
+		
+		<pre class="file" id="file11" style="display: none">package utils
+
+import (
+        "fmt"
+        "io/ioutil"
+        "net/http"
+)
+
+type (
+        // HTTPClient interface, replaceable for testing or custom implementation
+        HTTPClient interface {
+                Exec(req *http.Request) ([]byte, *http.Response, error)
+        }
+
+        // HubHTTPClient is the internal HTTPClient
+        HubHTTPClient struct {
+                httpClient *http.Client
+        }
+)
+
+// NewHubHTTPClient is creating the default client
+func NewHubHTTPClient() HTTPClient <span class="cov10" title="22">{
+        return HubHTTPClient{
+                httpClient: &amp;http.Client{},
+        }
+}</span>
+
+// Exec executes notification hub http request and handles the response
+func (hc HubHTTPClient) Exec(req *http.Request) ([]byte, *http.Response, error) <span class="cov0" title="0">{
+        return handleResponse(hc.httpClient.Do(req))
+}</span>
+
+// handleResponse reads http response body into byte slice
+// if response contains an unexpected status code, error is returned
+func handleResponse(resp *http.Response, inErr error) (b []byte, response *http.Response, err error) <span class="cov0" title="0">{
+        if inErr != nil </span><span class="cov0" title="0">{
+                return nil, nil, inErr
+        }</span>
+
+        <span class="cov0" title="0">defer func() </span><span class="cov0" title="0">{
+                if cerr := resp.Body.Close(); cerr != nil </span><span class="cov0" title="0">{
+                        err = cerr
+                }</span>
+        }()
+
+        <span class="cov0" title="0">response = resp
+        b, err = ioutil.ReadAll(resp.Body)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, nil, err
+        }</span>
+
+        <span class="cov0" title="0">if !isOKResponseCode(resp.StatusCode) </span><span class="cov0" title="0">{
+                return nil, response, fmt.Errorf("Got unexpected response status code: %d. response: %s", resp.StatusCode, string(b))
+        }</span>
+
+        <span class="cov0" title="0">if len(b) == 0 </span><span class="cov0" title="0">{
+                return []byte(fmt.Sprintf("Response status: %s", resp.Status)), response, nil
+        }</span>
+
+        <span class="cov0" title="0">return</span>
+}
+
+// isOKResponseCode identifies whether provided
+// response code matches the expected OK code
+func isOKResponseCode(code int) bool <span class="cov0" title="0">{
+        return code &gt;= http.StatusOK &amp;&amp; code &lt; http.StatusMultipleChoices
+}</span>
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>
