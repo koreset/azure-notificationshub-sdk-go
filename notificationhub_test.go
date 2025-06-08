@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"testing"
 
-	. "github.com/koreset/azure-notificationhubs-go"
+	. "github.com/koreset/azure-notificationhubs-sdk-go"
 )
 
 func Test_NewNotificationHub(t *testing.T) {

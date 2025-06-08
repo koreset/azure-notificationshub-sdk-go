@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	. "github.com/koreset/azure-notificationhubs-go"
+	. "github.com/koreset/azure-notificationhubs-sdk-go"
 )
 
 func Test_NotificationHubendFanout(t *testing.T) {

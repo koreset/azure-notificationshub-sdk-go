@@ -278,4 +278,4 @@ func testFcmV1Notification() {
 - [Firebase Cloud Messaging Documentation](https://firebase.google.com/docs/cloud-messaging)
 - [FCM v1 API Reference](https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages)
 
-For issues specific to this Go SDK, please check the [project issues](https://github.com/koreset/azure-notificationhubs-go/issues) or create a new one. 
+For issues specific to this Go SDK, please check the [project issues](https://github.com/koreset/azure-notificationhubs-sdk-go/issues) or create a new one. 

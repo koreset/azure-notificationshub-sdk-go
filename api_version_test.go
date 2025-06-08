@@ -3,7 +3,7 @@ package notificationhubs_test
 import (
 	"testing"
 
-	. "github.com/koreset/azure-notificationhubs-go"
+	. "github.com/koreset/azure-notificationhubs-sdk-go"
 )
 
 func TestGetAPIVersionForOperation(t *testing.T) {

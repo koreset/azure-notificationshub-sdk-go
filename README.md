@@ -14,7 +14,7 @@ Basically a wrapper for this [Rest API](https://docs.microsoft.com/en-us/rest/ap
 Using go get
 
 ```sh
-go get github.com/koreset/azure-notificationhubs-go
+go get github.com/koreset/azure-notificationhubs-sdk-go
 ```
 
 ## External dependencies
@@ -29,7 +29,7 @@ package main
 import (
   "context"
   "strings"
-  "github.com/koreset/azure-notificationhubs-go"
+  "github.com/koreset/azure-notificationhubs-sdk-go"
 )
 
 func main() {
@@ -78,7 +78,7 @@ package main
 import (
   "context"
   "fmt"
-  "github.com/koreset/azure-notificationhubs-go"
+  "github.com/koreset/azure-notificationhubs-sdk-go"
 )
 
 func main() {
@@ -123,7 +123,7 @@ package main
 import (
   "context"
   "strings"
-  "github.com/koreset/azure-notificationhubs-go"
+  "github.com/koreset/azure-notificationhubs-sdk-go"
 )
 
 func main() {
@@ -167,7 +167,7 @@ package main
 
 import (
   "context"
-  "github.com/koreset/azure-notificationhubs-go"
+  "github.com/koreset/azure-notificationhubs-sdk-go"
 )
 
 func main() {
@@ -197,7 +197,7 @@ package main
 
 import (
   "context"
-  "github.com/koreset/azure-notificationhubs-go"
+  "github.com/koreset/azure-notificationhubs-sdk-go"
 )
 
 func main() {

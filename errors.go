@@ -225,3 +225,4 @@ func NewMultiError() *MultiError {
 		Errors: make([]error, 0),
 	}
 }
+ 

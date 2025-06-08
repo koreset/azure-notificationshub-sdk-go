@@ -12,7 +12,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/koreset/azure-notificationhubs-go/utils"
+	"github.com/koreset/azure-notificationhubs-sdk-go/utils"
 )
 
 // NotificationHub is a client for sending messages through Azure Notification Hubs

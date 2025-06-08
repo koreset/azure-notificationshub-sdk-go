@@ -5,8 +5,8 @@ import (
 	"net/url"
 	"time"
 
-	. "github.com/koreset/azure-notificationhubs-go"
-	"github.com/koreset/azure-notificationhubs-go/utils"
+	. "github.com/koreset/azure-notificationhubs-sdk-go"
+	"github.com/koreset/azure-notificationhubs-sdk-go/utils"
 )
 
 // Internal constants for testing
