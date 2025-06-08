@@ -1,5 +1,5 @@
 Copyright for portions of project Gozure are held by Onefootball GmbH, 2015 as part of project https://github.com/Onefootball/gozure. 
-All other copyright are held by Daresay AB 2019, https://github.com/koreset/azure-notificationhubs-go.
+All other copyright are held by Korset Solutions 2025, https://github.com/koreset/azure-notificationhubs-sdk-go.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
