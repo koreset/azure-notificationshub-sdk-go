@@ -9,8 +9,8 @@ Now maintained and packaged by [Daresay AB](https://daresay.co), [@daresaydigita
 
 Basically a wrapper for this [Rest API](https://docs.microsoft.com/en-us/rest/api/notificationhubs/rest-api-methods)
 
-[![Build Status](https://travis-ci.org/koreset/azure-notificationhubs-go.svg?branch=master)](https://travis-ci.org/koreset/azure-notificationhubs-go)
-[![Go](https://github.com/koreset/azure-notificationhubs-go/workflows/Go/badge.svg?branch=master)](https://github.com/koreset/azure-notificationhubs-go/actions)
+[![Build Status](https://travis-ci.org/koreset/azure-notificationhubs-sdk-go.svg?branch=master)](https://travis-ci.org/koreset/azure-notificationhubs-sdk-go)
+[![Go](https://github.com/koreset/azure-notificationhubs-sdk-go/workflows/Go/badge.svg?branch=master)](https://github.com/koreset/azure-notificationhubs-sdk-go/actions)
 
 ## Module Name Change Notice
 
