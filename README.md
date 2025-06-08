@@ -5,9 +5,16 @@ This library provides a Go module for Microsoft Azure Notification Hubs.
 Originally a fork from [Gozure](https://github.com/onefootball/gozure) with patches
 from [Martin Etnestad](https://github.com/gnawybol) @ [vippsas](https://github.com/vippsas/gozure).
 
+Now maintained and packaged by [Daresay AB](https://daresay.co), [@daresaydigital](https://github.com/daresaydigital).
 
 Basically a wrapper for this [Rest API](https://docs.microsoft.com/en-us/rest/api/notificationhubs/rest-api-methods)
 
+[![Build Status](https://travis-ci.org/koreset/azure-notificationhubs-go.svg?branch=master)](https://travis-ci.org/koreset/azure-notificationhubs-go)
+[![Go](https://github.com/koreset/azure-notificationhubs-go/workflows/Go/badge.svg?branch=master)](https://github.com/koreset/azure-notificationhubs-go/actions)
+
+## Module Name Change Notice
+
+> **Note**: Starting from version v0.1.6, the module name has been updated from `github.com/koreset/azure-notificationhubs-go` to `github.com/koreset/azure-notificationhubs-sdk-go`. Please update your import paths accordingly.
 
 ## Installing
 

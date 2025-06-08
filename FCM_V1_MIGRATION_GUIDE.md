@@ -272,10 +272,12 @@ func testFcmV1Notification() {
 5. **Backup Data**: Export existing registrations before migration
 6. **Validate Credentials**: Ensure FCM v1 service account credentials are properly configured
 
-## Support and Resources
+## Additional Resources
 
-- [Azure Notification Hubs FCM v1 Documentation](https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-gcm-to-fcm)
-- [Firebase Cloud Messaging Documentation](https://firebase.google.com/docs/cloud-messaging)
 - [FCM v1 API Reference](https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages)
+- [Azure Notification Hubs Documentation](https://docs.microsoft.com/en-us/azure/notification-hubs/)
+- [Firebase Cloud Messaging Documentation](https://firebase.google.com/docs/cloud-messaging)
 
-For issues specific to this Go SDK, please check the [project issues](https://github.com/koreset/azure-notificationhubs-sdk-go/issues) or create a new one. 
+For issues specific to this Go SDK, please check the [project issues](https://github.com/koreset/azure-notificationhubs-sdk-go/issues) or create a new one.
+
+> **Note**: This SDK uses the module name `github.com/koreset/azure-notificationhubs-sdk-go`. Make sure to use this import path in your Go code. 
